@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .nav-link {
+    @apply mx-5 mt-4 block cursor-pointer text-base text-white hover:opacity-90 lg:mt-0 lg:inline-block;
+  }
+}
