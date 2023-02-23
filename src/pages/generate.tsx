@@ -1,9 +1,11 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { OpenAIApi, Configuration } from "openai";
-import { env } from "@/env.mjs";
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
+
+interface ImageResponse {
+  imageURL: string;
+}
 
 const Generate: NextPage = () => {
   const [generatedImg, setGeneratedImg] = useState<string>("");
@@ -11,33 +13,24 @@ const Generate: NextPage = () => {
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
 
-  const config = new Configuration({
-    apiKey: env.NEXT_PUBLIC_OPEN_AI_KEY,
-  });
-
-  const openai = new OpenAIApi(config);
-
   const generateIcon = async (e: React.MouseEvent) => {
     e.preventDefault();
     const iconPrompt = `a high quality icon of ${prompt} in metallic rainbow iridescent material, 3D render isometric perspective on a dark background, taken on a DSLR camera with a 36x24mm sensor and a 50mm lense`;
 
     setIsGenerating(true);
 
-    const res = await openai.createImage({
-      prompt: iconPrompt,
-      n: 1,
-      size: "256x256",
+    const response = await fetch("/api/image", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt: iconPrompt }),
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const imageResponse: ImageResponse = await response.json();
     setIsGenerating(false);
-
-    const image = res?.data?.data[0]?.url;
-
-    if (!image) {
-      console.log("Error creating your icon");
-    } else {
-      setGeneratedImg(image);
-    }
+    setGeneratedImg(imageResponse.imageURL);
   };
 
   return (
@@ -56,7 +49,7 @@ const Generate: NextPage = () => {
             Enter a descriptive prompt for your icon
           </label>
           <input
-            className="form-input w-full rounded-lg"
+            className="form-input mt-2 w-full rounded-lg bg-gray-800 text-white"
             placeholder="an astronaut playing basketball with a cat"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
@@ -65,7 +58,7 @@ const Generate: NextPage = () => {
         {session ? (
           <button
             onClick={(e) => void generateIcon(e)}
-            className="btn my-3 w-fit"
+            className="btn btn-secondary my-3 w-fit"
             disabled={isGenerating}
           >
             {isGenerating ? "Generating..." : "Submit"}
@@ -73,7 +66,7 @@ const Generate: NextPage = () => {
         ) : (
           <button
             onClick={() => void signIn("google")}
-            className="btn my-3 w-fit"
+            className="btn btn-secondary my-3 w-fit"
           >
             Sign in to Generate
           </button>

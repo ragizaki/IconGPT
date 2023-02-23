@@ -4,13 +4,10 @@ import { useSession, signIn, signOut } from "next-auth/react";
 export default function Navbar() {
   const { data: session } = useSession();
   return (
-    <nav className=" flex w-full flex-wrap items-center py-8 text-black">
-      <Link
-        href="/"
-        className="mr-6 flex flex-shrink-0 items-center text-black"
-      >
+    <nav className="border-shadow-md flex flex-wrap items-center py-8 text-inherit">
+      <Link href="/" className="mr-6 flex flex-shrink-0 items-center">
         <svg
-          className="text-color-white mr-4 h-8 w-8 stroke-black text-3xl"
+          className="text-color-white mr-4 h-8 w-8 stroke-white text-3xl"
           viewBox="0 0 20 20"
         >
           <polygon
@@ -43,12 +40,18 @@ export default function Navbar() {
         </div>
         {session ? (
           <>
-            <button className="btn" onClick={() => void signOut()}>
+            <button
+              className="btn btn-secondary"
+              onClick={() => void signOut()}
+            >
               Logout
             </button>
           </>
         ) : (
-          <button className="btn" onClick={() => void signIn("google")}>
+          <button
+            className="btn btn-primary bg-gradient-to-br from-purple-600 to-blue-500 transition ease-out hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-blue-300"
+            onClick={() => void signIn("google")}
+          >
             <svg
               className="mr-2 -ml-1 h-4 w-4"
               aria-hidden="true"

@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Hero from "@/components/Hero";
 
 const Home: NextPage = () => {
   return (
@@ -9,9 +10,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Website to generate icons using AI" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1>Hello</h1>
-      </div>
+      <Hero />
     </>
   );
 };

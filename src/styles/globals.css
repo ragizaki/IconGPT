@@ -7,7 +7,13 @@
     @apply mx-5 mt-4 block cursor-pointer text-base hover:opacity-80 lg:mt-0 lg:inline-block;
   }
   .btn {
-    @apply mr-2 mb-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white transition ease-in hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4];
+    @apply mr-2 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium transition ease-in  focus:outline-none;
+  }
+  .btn-primary {
+    @apply bg-gradient-to-br from-purple-600 to-blue-500 transition ease-out hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-blue-300;
+  }
+  .btn-secondary {
+    @apply bg-blue-500 transition ease-in hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-blue-300;
   }
   .label {
     @apply mb-2 block text-xl font-medium;

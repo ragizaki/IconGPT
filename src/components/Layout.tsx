@@ -7,7 +7,7 @@ interface LayoutProps {
 
 const Layout: NextPage<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-white to-white">
+    <div className="flex min-h-screen flex-col overflow-auto bg-gray-900 text-white">
       <div className="mx-auto w-2/3">
         <Navbar />
         <main>{children}</main>
