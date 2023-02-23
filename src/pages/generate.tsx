@@ -19,18 +19,22 @@ const Generate: NextPage = () => {
 
     setIsGenerating(true);
 
-    const response = await fetch("/api/image", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt: iconPrompt }),
-    });
+    try {
+      const response = await fetch("/api/image", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: iconPrompt }),
+      });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const imageResponse: ImageResponse = await response.json();
-    setIsGenerating(false);
-    setGeneratedImg(imageResponse.imageURL);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const imageResponse: ImageResponse = await response.json();
+      setIsGenerating(false);
+      setGeneratedImg(imageResponse.imageURL);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
