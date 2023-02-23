@@ -1,21 +1,43 @@
-import { Colors } from "@/constants";
 import { type NextPage } from "next";
-import { useForm, type SubmitHandler } from "react-hook-form";
 import Head from "next/head";
-
-interface FormValues {
-  prompt: string;
-}
+import { OpenAIApi, Configuration } from "openai";
+import { env } from "@/env.mjs";
+import { useState } from "react";
+import { useSession, signIn } from "next-auth/react";
 
 const Generate: NextPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>();
+  const [generatedImg, setGeneratedImg] = useState<string>("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const { data: session } = useSession();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+  const config = new Configuration({
+    apiKey: env.NEXT_PUBLIC_OPEN_AI_KEY,
+  });
+
+  const openai = new OpenAIApi(config);
+
+  const generateIcon = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const iconPrompt = `a high quality icon of ${prompt} in metallic rainbow iridescent material, 3D render isometric perspective on a dark background, taken on a DSLR camera with a 36x24mm sensor and a 50mm lense`;
+
+    setIsGenerating(true);
+
+    const res = await openai.createImage({
+      prompt: iconPrompt,
+      n: 1,
+      size: "256x256",
+    });
+
+    setIsGenerating(false);
+
+    const image = res?.data?.data[0]?.url;
+
+    if (!image) {
+      console.log("Error creating your icon");
+    } else {
+      setGeneratedImg(image);
+    }
   };
 
   return (
@@ -27,10 +49,7 @@ const Generate: NextPage = () => {
           content="Generate an icon from OpenAI on this page"
         />
       </Head>
-      <form
-        onSubmit={void handleSubmit(onSubmit)}
-        className="mt-5 flex flex-col justify-start space-y-8 text-black"
-      >
+      <div className="mt-5 flex flex-col justify-start space-y-8">
         <h2 className="text-4xl">Let&apos;s generate your icon.</h2>
         <div>
           <label className="label">
@@ -39,35 +58,31 @@ const Generate: NextPage = () => {
           <input
             className="form-input w-full rounded-lg"
             placeholder="an astronaut playing basketball with a cat"
-            {...register("prompt")}
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
           />
         </div>
-        <div>
-          <label className="label">Choose the main color for your icon</label>
-          <div className="flex items-center space-x-5">
-            {Colors.map((color: string) => (
-              <div key={color} className="flex items-center">
-                <input
-                  id="red-radio"
-                  type="radio"
-                  value=""
-                  name="colored-radio"
-                  className="form-radio h-5 w-5"
-                />
-                <label
-                  htmlFor="red-radio"
-                  className="ml-2 text-base font-medium"
-                >
-                  Red
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-        <button type="submit" className="btn my-3 w-20">
-          Submit
-        </button>
-      </form>
+        {session ? (
+          <button
+            onClick={(e) => void generateIcon(e)}
+            className="btn my-3 w-fit"
+            disabled={isGenerating}
+          >
+            {isGenerating ? "Generating..." : "Submit"}
+          </button>
+        ) : (
+          <button
+            onClick={() => void signIn("google")}
+            className="btn my-3 w-fit"
+          >
+            Sign in to Generate
+          </button>
+        )}
+
+        {generatedImg && (
+          <img className="h-28 w-28 rounded-lg" src={generatedImg} alt="icon" />
+        )}
+      </div>
     </>
   );
 };

@@ -6,6 +6,4 @@ export const Colors = [
   "purple",
   "orange",
   "pink",
-  "white",
-  "black",
 ];
