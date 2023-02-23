@@ -1,11 +1,16 @@
 import Link from "next/link";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export default function Navbar() {
+  const { data: session } = useSession();
   return (
-    <nav className=" flex w-full flex-wrap items-center p-6">
-      <div className="mr-6 flex flex-shrink-0 items-center text-white">
+    <nav className=" flex w-full flex-wrap items-center py-8 text-black">
+      <Link
+        href="/"
+        className="mr-6 flex flex-shrink-0 items-center text-black"
+      >
         <svg
-          className="text-color-white mr-4 h-8 w-8 stroke-white text-3xl"
+          className="text-color-white mr-4 h-8 w-8 stroke-black text-3xl"
           viewBox="0 0 20 20"
         >
           <polygon
@@ -26,7 +31,7 @@ export default function Navbar() {
           ></path>
         </svg>
         <span className="text-xl font-semibold tracking-tight">IconAI</span>
-      </div>
+      </Link>
       <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
         <div className="text-sm lg:flex-grow">
           <Link href="/generate" className="nav-link">
@@ -36,9 +41,32 @@ export default function Navbar() {
             Community
           </Link>
         </div>
-        <button className="mt-4 inline-block rounded border border-white px-4 py-2 text-base text-sm leading-none text-white transition ease-in hover:border-transparent hover:bg-white hover:text-indigo-900 lg:mt-0">
-          Sign In
-        </button>
+        {session ? (
+          <>
+            <button className="btn" onClick={() => void signOut()}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <button className="btn" onClick={() => void signIn("google")}>
+            <svg
+              className="mr-2 -ml-1 h-4 w-4"
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fab"
+              data-icon="google"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 488 512"
+            >
+              <path
+                fill="currentColor"
+                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+              ></path>
+            </svg>
+            Sign in with Google
+          </button>
+        )}
       </div>
     </nav>
   );

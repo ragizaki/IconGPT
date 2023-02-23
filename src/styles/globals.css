@@ -4,6 +4,15 @@
 
 @layer components {
   .nav-link {
-    @apply mx-5 mt-4 block cursor-pointer text-base text-white hover:opacity-90 lg:mt-0 lg:inline-block;
+    @apply mx-5 mt-4 block cursor-pointer text-base hover:opacity-80 lg:mt-0 lg:inline-block;
+  }
+  .btn {
+    @apply mr-2 mb-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white transition ease-in hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4];
+  }
+  .label {
+    @apply mb-2 block text-xl font-medium;
+  }
+  .text-input {
+    @apply w-full rounded-lg py-2.5 px-4 text-lg text-black;
   }
 }

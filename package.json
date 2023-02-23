@@ -16,9 +16,11 @@
     "next-auth": "^4.19.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.1",
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "@types/eslint": "^8.21.1",
     "@types/node": "^18.11.18",
     "@types/prettier": "^2.7.2",
