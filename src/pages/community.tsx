@@ -22,12 +22,12 @@ const Community: NextPage<Props> = ({ icons }) => {
           Check out the Community Icons
         </h1>
         <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {icons.map((icon) => (
+          {icons.map(({ id, image, description }) => (
             <img
               className="rounded-lg shadow-lg"
-              key={icon.id}
-              src={icon.image}
-              alt={icon.description}
+              key={id}
+              src={image}
+              alt={description}
             />
           ))}
         </section>
