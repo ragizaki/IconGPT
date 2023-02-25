@@ -9,7 +9,7 @@ interface ImageResponse {
   imageURL: string;
 }
 
-const Generate: NextPage = () => {
+const Create: NextPage = () => {
   const [generatedImg, setGeneratedImg] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [prompt, setPrompt] = useState("");
@@ -19,7 +19,7 @@ const Generate: NextPage = () => {
     saveAs(generatedImg, "icon.png");
   };
 
-  const generateIcon = async (e: React.MouseEvent) => {
+  const createIcon = async (e: React.MouseEvent) => {
     e.preventDefault();
     const iconPrompt = `a high quality icon of ${prompt} in light blue metallic iridescent material, 3D render isometric perspective on a dark background`;
 
@@ -54,14 +54,14 @@ const Generate: NextPage = () => {
   return (
     <>
       <Head>
-        <title>IconAI - Generate Icon</title>
+        <title>IconAI - Create Icon</title>
         <meta
           name="description"
-          content="Generate an icon from OpenAI on this page"
+          content="Create an icon from OpenAI on this page"
         />
       </Head>
       <div className="mt-5 flex flex-col justify-start space-y-8">
-        <h2 className="text-4xl">Let&apos;s generate your icon.</h2>
+        <h2 className="text-4xl font-semibold">Let&apos;s create your icon.</h2>
         <div>
           <label className="label">
             Enter a descriptive prompt for your icon
@@ -75,7 +75,7 @@ const Generate: NextPage = () => {
         </div>
         {session ? (
           <button
-            onClick={(e) => void generateIcon(e)}
+            onClick={(e) => void createIcon(e)}
             className="btn btn-secondary my-3 w-fit"
             disabled={isGenerating}
           >
@@ -86,7 +86,7 @@ const Generate: NextPage = () => {
             onClick={() => void signIn("google")}
             className="btn btn-secondary my-3 w-fit"
           >
-            Sign in to Generate
+            Sign in to Create
           </button>
         )}
 
@@ -119,4 +119,4 @@ const Generate: NextPage = () => {
   );
 };
 
-export default Generate;
+export default Create;

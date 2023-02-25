@@ -7,7 +7,7 @@ const Home: NextPage = () => {
     <>
       <Head>
         <title>IconAI</title>
-        <meta name="description" content="Website to generate icons using AI" />
+        <meta name="description" content="Website to create icons using AI" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />

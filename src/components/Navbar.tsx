@@ -4,7 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 export default function Navbar() {
   const { data: session } = useSession();
   return (
-    <nav className="border-shadow-md flex flex-wrap items-center py-8 text-inherit">
+    <nav className="border-shadow-md mb-5 flex flex-wrap items-center py-8 text-inherit">
       <Link href="/" className="mr-6 flex flex-shrink-0 items-center">
         <svg
           className="text-color-white mr-4 h-8 w-8 stroke-white text-3xl"
@@ -42,7 +42,7 @@ export default function Navbar() {
           <>
             <button
               className="btn btn-secondary"
-              onClick={() => void signOut()}
+              onClick={() => void signOut({ callbackUrl: "/" })}
             >
               Logout
             </button>
