@@ -1,7 +1,13 @@
-import { type NextPage } from "next";
+import { prisma } from "@/server/db";
+import { type Icon } from "@prisma/client";
+import { type GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
 
-const Community: NextPage = () => {
+interface Props {
+  icons: Icon[];
+}
+
+const Community: NextPage<Props> = ({ icons }) => {
   return (
     <>
       <Head>
@@ -11,8 +17,30 @@ const Community: NextPage = () => {
           content="Browse the community's created icons"
         />
       </Head>
+      <main>
+        <h1 className="mb-10 text-4xl font-semibold">
+          Check out the Community Icons
+        </h1>
+        <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {icons.map((icon) => (
+            <img
+              className="rounded-lg shadow-lg"
+              key={icon.id}
+              src={icon.image}
+              alt={icon.description}
+            />
+          ))}
+        </section>
+      </main>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const icons = await prisma.icon.findMany();
+  return {
+    props: { icons },
+  };
 };
 
 export default Community;

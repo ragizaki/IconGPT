@@ -15,9 +15,10 @@ const Generate: NextPage = () => {
 
   const generateIcon = async (e: React.MouseEvent) => {
     e.preventDefault();
-    const iconPrompt = `a high quality icon of ${prompt} in metallic rainbow iridescent material, 3D render isometric perspective on a dark background, taken on a DSLR camera with a 36x24mm sensor and a 50mm lense`;
+    const iconPrompt = `a high quality icon of ${prompt} in light blue metallic iridescent material, 3D render isometric perspective on a dark background`;
 
     setIsGenerating(true);
+    setGeneratedImg("");
 
     try {
       const response = await fetch("/api/image", {
@@ -29,9 +30,16 @@ const Generate: NextPage = () => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const imageResponse: ImageResponse = await response.json();
+      const { imageURL }: ImageResponse = await response.json();
+      const result = await fetch("/api/icon", {
+        method: "POST",
+        body: JSON.stringify({ image: imageURL, description: prompt }),
+      });
+
       setIsGenerating(false);
-      setGeneratedImg(imageResponse.imageURL);
+      setGeneratedImg(imageURL);
+      setPrompt("");
+      console.log(result);
     } catch (error) {
       console.error(error);
     }
