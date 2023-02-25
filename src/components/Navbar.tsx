@@ -31,8 +31,8 @@ export default function Navbar() {
       </Link>
       <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
         <div className="text-sm lg:flex-grow">
-          <Link href="/generate" className="nav-link">
-            Generate
+          <Link href="/create" className="nav-link">
+            Create
           </Link>
           <Link href="/community" className="nav-link">
             Community

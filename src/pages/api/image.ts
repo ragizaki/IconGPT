@@ -14,7 +14,7 @@ export default async function handler(
     const response = await openai.createImage({
       prompt: req.body.prompt,
       n: 1,
-      size: "256x256",
+      size: "1024x1024",
     });
 
     if (!response.data) throw new Error("Unable to get image");
