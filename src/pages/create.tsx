@@ -7,6 +7,7 @@ import { saveAs } from "file-saver";
 
 interface ImageResponse {
   imageURL: string;
+  result: any;
 }
 
 const Create: NextPage = () => {
@@ -32,15 +33,11 @@ const Create: NextPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: iconPrompt }),
+        body: JSON.stringify({ prompt: iconPrompt, description: prompt }),
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { imageURL }: ImageResponse = await response.json();
-      const result = await fetch("/api/icon", {
-        method: "POST",
-        body: JSON.stringify({ image: imageURL, description: prompt }),
-      });
+      const { result, imageURL }: ImageResponse = await response.json();
 
       setIsGenerating(false);
       setGeneratedImg(imageURL);
