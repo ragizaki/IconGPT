@@ -25,7 +25,7 @@ const Create: NextPage = () => {
 
   const createIcon = async (e: React.MouseEvent) => {
     e.preventDefault();
-    const iconPrompt = `a high quality icon of ${prompt} in light blue metallic iridescent material, 3D render isometric perspective on a dark background`;
+    const iconPrompt = `a high quality icon of ${prompt} in ${color} metallic iridescent material, 3D render isometric perspective on a dark background`;
 
     setIsGenerating(true);
     setGeneratedImg("");
@@ -67,14 +67,14 @@ const Create: NextPage = () => {
             Enter a descriptive prompt for your icon
           </label>
           <input
-            className="w-full rounded-lg bg-gray-800 py-2.5 px-4 text-white outline-none focus:outline-2 focus:outline-blue-500"
+            className="w-full rounded-lg bg-gray-800 py-2.5 px-4 text-white outline-none outline-blue-200 focus:outline-2 focus:outline-blue-500"
             placeholder="an astronaut playing basketball with a cat"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
         </div>
         <label className="label">Choose the main color for your icon</label>
-        <div className="space-x-8">
+        <div className="flex space-x-8">
           {colorOptions.map((option) => (
             <ColorPicker
               key={option}
