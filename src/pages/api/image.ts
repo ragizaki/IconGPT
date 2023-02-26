@@ -3,6 +3,7 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import { Configuration, OpenAIApi } from "openai";
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
+import cloudinary from "@/lib/cloudinary";
 
 const configuration = new Configuration({
   apiKey: env.NEXT_PUBLIC_OPEN_AI_KEY,
@@ -27,9 +28,11 @@ export default async function handler(
 
     const imageURL = data.data[0]?.url;
 
+    const { url } = await cloudinary.uploader.upload(imageURL as string);
+
     const result = await prisma.icon.create({
       data: {
-        image: imageURL as string,
+        image: url,
         description: req.body.description,
         author: { connect: { email: session.user.email as string } },
       },

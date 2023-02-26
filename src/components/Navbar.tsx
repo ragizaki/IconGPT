@@ -37,6 +37,11 @@ export default function Navbar() {
           <Link href="/community" className="nav-link">
             Community
           </Link>
+          {session && (
+            <Link href="/icons" className="nav-link">
+              Your Icons
+            </Link>
+          )}
         </div>
         {session ? (
           <>

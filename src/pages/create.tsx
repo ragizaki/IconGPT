@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { saveAs } from "file-saver";
+import { colorOptions } from "@/constants";
+import ColorPicker from "@/components/ColorPicker";
 
 interface ImageResponse {
   imageURL: string;
@@ -14,6 +16,7 @@ const Create: NextPage = () => {
   const [generatedImg, setGeneratedImg] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [color, setColor] = useState("");
   const { data: session } = useSession();
 
   const downloadIcon = () => {
@@ -60,15 +63,26 @@ const Create: NextPage = () => {
       <div className="mt-5 flex flex-col justify-start space-y-8">
         <h2 className="text-4xl font-semibold">Let&apos;s create your icon.</h2>
         <div>
-          <label className="label">
+          <label className="label mb-4">
             Enter a descriptive prompt for your icon
           </label>
           <input
-            className="form-input mt-2 w-full rounded-lg bg-gray-800 text-white"
+            className="w-full rounded-lg bg-gray-800 py-2.5 px-4 text-white outline-none focus:outline-2 focus:outline-blue-500"
             placeholder="an astronaut playing basketball with a cat"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
           />
+        </div>
+        <label className="label">Choose the main color for your icon</label>
+        <div className="space-x-8">
+          {colorOptions.map((option) => (
+            <ColorPicker
+              key={option}
+              option={option}
+              color={color}
+              setColor={setColor}
+            />
+          ))}
         </div>
         {session ? (
           <button

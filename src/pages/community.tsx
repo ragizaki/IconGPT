@@ -1,3 +1,4 @@
+import IconsGrid from "@/components/IconGrid";
 import { prisma } from "@/server/db";
 import { type Icon } from "@prisma/client";
 import { type GetStaticProps, type NextPage } from "next";
@@ -21,16 +22,7 @@ const Community: NextPage<Props> = ({ icons }) => {
         <h1 className="mb-10 text-4xl font-semibold">
           Check out the Community Icons
         </h1>
-        <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-          {icons.map(({ id, image, description }) => (
-            <img
-              className="rounded-lg shadow-lg"
-              key={id}
-              src={image}
-              alt={description}
-            />
-          ))}
-        </section>
+        <IconsGrid icons={icons} />
       </main>
     </>
   );
