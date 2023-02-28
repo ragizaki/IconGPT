@@ -1,8 +1,9 @@
-import { type NextPage, GetServerSidePropsContext } from "next";
+import { type NextPage, type GetServerSidePropsContext } from "next";
 import { type Icon } from "@prisma/client";
 import IconsGrid from "@/components/IconGrid";
 import { prisma } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
+import Head from "next/head";
 
 interface Props {
   icons: Icon[];
@@ -10,10 +11,19 @@ interface Props {
 
 const UserIcons: NextPage<Props> = ({ icons }) => {
   return (
-    <main>
-      <h1 className="mb-10 text-4xl font-semibold">Your Icons</h1>
-      <IconsGrid icons={icons} />
-    </main>
+    <>
+      <Head>
+        <title>IconAI - Your Icons</title>
+        <meta
+          name="description"
+          content="Check out all your previously created icons here"
+        />
+      </Head>
+      <main>
+        <h1 className="mb-10 text-4xl font-semibold">Your Icons</h1>
+        <IconsGrid icons={icons} />
+      </main>
+    </>
   );
 };
 

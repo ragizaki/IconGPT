@@ -1,8 +1,20 @@
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useEffect } from "react";
+import { useTokenContext } from "@/context/tokens";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const { remainingTokens, setRemainingTokens } = useTokenContext();
+
+  useEffect(() => {
+    const getTokens = async () => {
+      const res = await fetch("/api/tokens");
+      const data: unknown = await res.json();
+      setRemainingTokens(data as number);
+    };
+    void getTokens();
+  }, [setRemainingTokens]);
   return (
     <nav className="border-shadow-md mb-5 flex flex-wrap items-center py-8 text-inherit">
       <Link href="/" className="mr-6 flex flex-shrink-0 items-center">
@@ -45,6 +57,10 @@ export default function Navbar() {
         </div>
         {session ? (
           <>
+            <p className="mr-3">
+              {remainingTokens} {remainingTokens === 1 ? "token" : "tokens"}{" "}
+              left
+            </p>
             <button
               className="btn btn-secondary"
               onClick={() => void signOut({ callbackUrl: "/" })}

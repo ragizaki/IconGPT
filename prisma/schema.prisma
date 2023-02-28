@@ -45,6 +45,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  tokens        Int       @default(1)
   accounts      Account[]
   icons         Icon[]
   sessions      Session[]

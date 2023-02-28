@@ -28,11 +28,11 @@ export default async function handler(
 
     const imageURL = data.data[0]?.url;
 
-    const { url } = await cloudinary.uploader.upload(imageURL as string);
+    const { secure_url } = await cloudinary.uploader.upload(imageURL as string);
 
     const result = await prisma.icon.create({
       data: {
-        image: url,
+        image: secure_url,
         description: req.body.description,
         author: { connect: { email: session.user.email as string } },
       },

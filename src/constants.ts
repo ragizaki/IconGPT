@@ -6,4 +6,7 @@ export const colorOptions = [
   "purple",
   "orange",
   "pink",
+  "white",
+  "black",
+  "lime",
 ];

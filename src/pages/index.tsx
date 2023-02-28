@@ -6,7 +6,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>IconAI</title>
+        <title>IconAI - Create beautiful icons with the DALL-E-2 API</title>
         <meta name="description" content="Website to create icons using AI" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
