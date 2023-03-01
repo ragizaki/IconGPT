@@ -15,12 +15,6 @@
   .btn-secondary {
     @apply bg-blue-500 transition ease-in hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-blue-300;
   }
-  .label {
-    @apply mb-2 block text-xl font-medium;
-  }
-  .text-input {
-    @apply w-full rounded-lg py-2.5 px-4 text-lg text-black;
-  }
 }
 
 @layer base {

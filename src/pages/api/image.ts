@@ -16,27 +16,33 @@ export default async function handler(
   const session = await getServerAuthSession({ req, res });
   if (req.method === "POST" && session) {
     const openai = new OpenAIApi(configuration);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
     const { data } = await openai.createImage({
-      prompt: req.body.prompt,
-      n: 1,
+      prompt: req.body.prompt as string,
+      n: parseInt(req.body.numIcons as string),
       size: "1024x1024",
     });
 
     if (!data) throw new Error("Unable to get image");
 
-    const imageURL = data.data[0]?.url;
+    const image_urls = [];
 
-    const { secure_url } = await cloudinary.uploader.upload(imageURL as string);
+    for (const image of data.data) {
+      const { secure_url } = await cloudinary.uploader.upload(
+        image.url as string
+      );
 
-    const result = await prisma.icon.create({
-      data: {
-        image: secure_url,
-        description: req.body.description,
-        author: { connect: { email: session.user.email as string } },
-      },
-    });
-    res.json({ result, imageURL });
+      image_urls.push(secure_url);
+
+      await prisma.icon.create({
+        data: {
+          image: secure_url,
+          description: req.body.description as string,
+          author: { connect: { email: session.user.email as string } },
+        },
+      });
+    }
+
+    res.json(image_urls);
   }
 }

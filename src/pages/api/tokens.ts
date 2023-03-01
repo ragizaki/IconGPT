@@ -16,16 +16,16 @@ export default async function handler(
 
     res.json(user?.tokens);
   } else if (req.method === "PATCH") {
-    const result = await prisma.user.update({
+    const { tokens } = await prisma.user.update({
       where: {
         email: session?.user.email as string,
       },
       data: {
         tokens: {
-          decrement: 1,
+          decrement: parseInt(req.body.numTokens as number),
         },
       },
     });
-    res.json(result);
+    res.json(tokens);
   }
 }
