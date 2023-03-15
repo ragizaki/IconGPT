@@ -5,12 +5,19 @@ import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
 import cloudinary from "@/lib/cloudinary";
 
+interface ExtendedNextApiRequest extends NextApiRequest {
+  body: {
+    description: string;
+    prompt: string;
+  };
+}
+
 const configuration = new Configuration({
   apiKey: env.NEXT_PUBLIC_OPEN_AI_KEY,
 });
 
 export default async function handler(
-  req: NextApiRequest,
+  req: ExtendedNextApiRequest,
   res: NextApiResponse
 ) {
   const session = await getServerAuthSession({ req, res });
@@ -18,8 +25,8 @@ export default async function handler(
     const openai = new OpenAIApi(configuration);
 
     const { data } = await openai.createImage({
-      prompt: req.body.prompt as string,
-      n: parseInt(req.body.numIcons as string),
+      prompt: req.body.prompt,
+      n: 1,
       size: "1024x1024",
     });
 
@@ -37,7 +44,7 @@ export default async function handler(
       await prisma.icon.create({
         data: {
           image: secure_url,
-          description: req.body.description as string,
+          description: req.body.description,
           author: { connect: { email: session.user.email as string } },
         },
       });
