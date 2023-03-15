@@ -12,7 +12,7 @@ const Community: NextPage<Props> = ({ icons }) => {
   return (
     <>
       <Head>
-        <title>IconAI - Community Icons</title>
+        <title>iconGPT - Community Icons</title>
         <meta
           name="description"
           content="Browse the community's created icons"

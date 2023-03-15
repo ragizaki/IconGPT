@@ -13,7 +13,7 @@ const UserIcons: NextPage<Props> = ({ icons }) => {
   return (
     <>
       <Head>
-        <title>IconAI - Your Icons</title>
+        <title>iconGPT - Your Icons</title>
         <meta
           name="description"
           content="Check out all your previously created icons here"

@@ -3,11 +3,9 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
-import { saveAs } from "file-saver";
+import downloadIcon from "@/lib/downloadIcon";
 import { colorOptions, artStyleOptions, type ArtStyle } from "@/constants";
 import ColorPicker from "@/components/ColorPicker";
-import Alert from "@/components/Alert";
-import { useTokenContext } from "@/context/tokens";
 import StylePicker from "@/components/StylePicker";
 import determinePrompt from "@/lib/prompt";
 
@@ -17,15 +15,8 @@ const Create: NextPage = () => {
   const [prompt, setPrompt] = useState("");
   const [color, setColor] = useState("");
   const [chosenArtStyle, setChosenArtStyle] = useState<ArtStyle>("");
-  const [numIcons, setNumIcons] = useState(1);
-  const [error, setError] = useState(false);
   const { data: session } = useSession();
-  const { remainingTokens, setRemainingTokens } = useTokenContext();
   const imagesRef = useRef<null | HTMLDivElement>(null);
-
-  const downloadIcon = (generatedImg: string) => {
-    saveAs(generatedImg, "icon.png");
-  };
 
   useEffect(() => {
     imagesRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -33,10 +24,6 @@ const Create: NextPage = () => {
 
   const createIcon = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (numIcons > remainingTokens) {
-      setError(true);
-      return;
-    }
 
     setIsGenerating(true);
     setGeneratedImageURLS([]);
@@ -50,22 +37,11 @@ const Create: NextPage = () => {
         body: JSON.stringify({
           prompt: determinePrompt(chosenArtStyle, prompt, color),
           description: prompt,
-          numIcons,
         }),
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const image_urls: string[] = await response.json();
-
-      const res = await fetch("/api/tokens", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ numTokens: numIcons }),
-      });
-      const tokens: number = (await res.json()) as number;
-      setRemainingTokens(tokens);
 
       setIsGenerating(false);
       setGeneratedImageURLS(image_urls);
@@ -81,19 +57,21 @@ const Create: NextPage = () => {
   return (
     <>
       <Head>
-        <title>IconAI - Create Icon</title>
+        <title>iconGPT - Create Icon</title>
         <meta
           name="description"
           content="Create an icon from OpenAI on this page"
         />
       </Head>
       <div className="mt-5 flex flex-col justify-start space-y-10">
-        {error && <Alert>Not enough tokens to generate an image.</Alert>}
-        <h2 className="text-4xl font-semibold">Let&apos;s create your icon.</h2>
+        <h2 className="text-5xl font-semibold">Let&apos;s create your icon.</h2>
         <div>
-          <h2 className="mb-5 block text-2xl font-normal">
-            Enter a descriptive prompt for your icon
-          </h2>
+          <div className="mb-5 flex items-center space-x-4">
+            <Image src="/number-1.svg" height={30} width={30} alt="number 1" />
+            <h2 className="block text-2xl font-normal">
+              Enter a descriptive prompt for your icon
+            </h2>
+          </div>
           <input
             className="w-full rounded-lg bg-gray-800 py-2.5 px-4 text-white outline-none outline-blue-200 focus:outline-2 focus:outline-blue-500"
             placeholder="an astronaut playing basketball with a cat"
@@ -102,9 +80,12 @@ const Create: NextPage = () => {
           />
         </div>
         <div>
-          <h2 className="mb-5 block text-2xl font-normal">
-            Choose the main color for your icon
-          </h2>
+          <div className="mb-5 flex items-center space-x-4">
+            <Image src="/number-2.svg" height={30} width={30} alt="number 2" />
+            <h2 className="block text-2xl font-normal">
+              Choose the main colour for your icon
+            </h2>
+          </div>
           <div className="grid grid-cols-2 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {colorOptions.map((option) => (
               <ColorPicker
@@ -117,9 +98,12 @@ const Create: NextPage = () => {
           </div>
         </div>
         <div>
-          <h2 className="mb-5 block text-2xl font-normal">
-            Choose an art style for your icon
-          </h2>
+          <div className="mb-5 flex items-center space-x-4">
+            <Image src="/number-3.svg" height={30} width={30} alt="number 3" />
+            <h2 className="block text-2xl font-normal">
+              Choose an art style for your icon
+            </h2>
+          </div>
           <div className="grid grid-cols-2 gap-y-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {artStyleOptions.map(({ artStyle, imageSource }) => (
               <StylePicker
@@ -131,17 +115,6 @@ const Create: NextPage = () => {
               />
             ))}
           </div>
-        </div>
-        <div>
-          <h2 className="mb-5 block text-2xl font-normal">
-            Choose the number of icons to generate (1 token per icon)
-          </h2>
-          <input
-            type="number"
-            className="w-1/2 rounded-lg bg-gray-800 py-2.5 px-4 text-white outline-none outline-blue-200 focus:outline-2 focus:outline-blue-500"
-            value={numIcons}
-            onChange={(e) => setNumIcons(e.target.value)}
-          />
         </div>
         {session ? (
           <button
@@ -175,7 +148,7 @@ const Create: NextPage = () => {
                     className="h-40 w-40 rounded-lg"
                   />
                   <svg
-                    onClick={() => downloadIcon(image_url)}
+                    onClick={() => void downloadIcon(image_url, prompt)}
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
