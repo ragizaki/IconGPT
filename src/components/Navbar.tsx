@@ -1,22 +1,12 @@
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect } from "react";
-import { useTokenContext } from "@/context/tokens";
+import { useSession, signIn } from "next-auth/react";
+import Image from "next/image";
 
 export default function Navbar() {
   const { data: session } = useSession();
-  const { remainingTokens, setRemainingTokens } = useTokenContext();
 
-  useEffect(() => {
-    const getTokens = async () => {
-      const res = await fetch("/api/tokens");
-      const data: unknown = await res.json();
-      setRemainingTokens(data as number);
-    };
-    void getTokens();
-  }, [setRemainingTokens]);
   return (
-    <nav className="border-shadow-md mb-5 flex flex-wrap items-center py-8 text-inherit">
+    <nav className="mb-5 flex flex-wrap items-center border border-r-0 border-t-0 border-l-0 border-b-slate-400 py-8 text-inherit">
       <Link href="/" className="mr-6 flex flex-shrink-0 items-center">
         <svg
           className="text-color-white mr-4 h-8 w-8 stroke-white text-3xl"
@@ -39,7 +29,7 @@ export default function Navbar() {
             d="M18.887,10.056c-2.749,0.398-6.154,3.206-6.154,9.508h0.933l5.899-2.733L18.887,10.056z"
           ></path>
         </svg>
-        <span className="text-xl font-semibold tracking-tight">IconAI</span>
+        <span className="text-xl font-semibold tracking-tight">iconGPT</span>
       </Link>
       <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
         <div className="text-sm lg:flex-grow">
@@ -56,18 +46,13 @@ export default function Navbar() {
           )}
         </div>
         {session ? (
-          <>
-            <p className="mr-3">
-              {remainingTokens} {remainingTokens === 1 ? "token" : "tokens"}{" "}
-              left
-            </p>
-            <button
-              className="btn btn-secondary"
-              onClick={() => void signOut({ callbackUrl: "/" })}
-            >
-              Logout
-            </button>
-          </>
+          <Image
+            src={session.user.image as string}
+            width={45}
+            height={45}
+            alt={session.user.name as string}
+            className="rounded-full"
+          />
         ) : (
           <button
             className="btn btn-primary bg-gradient-to-br from-purple-600 to-blue-500 transition ease-out hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-blue-300"
