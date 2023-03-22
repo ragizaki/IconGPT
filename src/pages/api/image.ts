@@ -32,24 +32,17 @@ export default async function handler(
 
     if (!data) throw new Error("Unable to get image");
 
-    const image_urls = [];
+    const { secure_url } = await cloudinary.uploader.upload(
+      data.data[0]?.url as string
+    );
 
-    for (const image of data.data) {
-      const { secure_url } = await cloudinary.uploader.upload(
-        image.url as string
-      );
-
-      image_urls.push(secure_url);
-
-      await prisma.icon.create({
-        data: {
-          image: secure_url,
-          description: req.body.description,
-          author: { connect: { email: session.user.email as string } },
-        },
-      });
-    }
-
-    res.json(image_urls);
+    await prisma.icon.create({
+      data: {
+        image: secure_url,
+        description: req.body.description,
+        author: { connect: { email: session.user.email as string } },
+      },
+    });
+    res.json(secure_url);
   }
 }
