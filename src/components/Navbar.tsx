@@ -36,9 +36,6 @@ export default function Navbar() {
           <Link href="/create" className="nav-link">
             Create
           </Link>
-          <Link href="/community" className="nav-link">
-            Community
-          </Link>
           {session && (
             <Link href="/icons" className="nav-link">
               Your Icons
