@@ -30,7 +30,7 @@ const StylePicker: React.FC<Props> = ({
           width={100}
           height={100}
           alt={artStyle}
-          className="z-20 h-32 w-32 cursor-pointer rounded-xl opacity-40 peer-checked:scale-110 peer-checked:opacity-100"
+          className="z-20 h-36 w-36 cursor-pointer rounded-xl opacity-40 peer-checked:scale-110 peer-checked:opacity-100"
         />
         <p>{artStyle}</p>
       </label>
