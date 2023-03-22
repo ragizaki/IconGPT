@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="bg-gray-900 text-white">
       <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-4/5 lg:items-center">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl md:text-5xl lg:text-6xl">
+          <h1 className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl md:text-5xl xl:text-6xl">
             Create beautiful icons
             <span className="sm:block"> with the DALL-E-2 API</span>
           </h1>
