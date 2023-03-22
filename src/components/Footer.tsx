@@ -28,6 +28,7 @@ export default function Footer() {
           href="https://github.com/ragizaki"
           className="group"
           aria-label="TaxPal on GitHub"
+          target="_blank"
         >
           <svg
             aria-hidden="true"
