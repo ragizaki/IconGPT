@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <nav className="mb-5 flex flex-wrap items-center border border-r-0 border-t-0 border-l-0 border-b-slate-400 py-8 text-inherit">
       <Link href="/" className="mr-6 flex flex-shrink-0 items-center">
-        <svg
+        {/* <svg
           className="text-color-white mr-4 h-8 w-8 stroke-white text-3xl"
           viewBox="0 0 20 20"
         >
@@ -28,8 +28,15 @@ export default function Navbar() {
             fill="none"
             d="M18.887,10.056c-2.749,0.398-6.154,3.206-6.154,9.508h0.933l5.899-2.733L18.887,10.056z"
           ></path>
-        </svg>
-        <span className="text-xl font-semibold tracking-tight">iconGPT</span>
+        </svg> */}
+        <Image
+          src="/logo.png"
+          width={70}
+          height={70}
+          alt="astronaut"
+          className="mr-3 rounded-full"
+        />
+        <span className="text-xl font-semibold tracking-tight">IconGPT</span>
       </Link>
       <div className="block w-full flex-grow lg:flex lg:w-auto lg:items-center">
         <div className="text-sm lg:flex-grow">
