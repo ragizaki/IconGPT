@@ -10,7 +10,7 @@ import StylePicker from "@/components/StylePicker";
 import determinePrompt from "@/lib/prompt";
 
 const Create: NextPage = () => {
-  const [generatedImageURLS, setGeneratedImageURLS] = useState<string[]>([]);
+  const [generatedImageURL, setGeneratedImageURL] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [color, setColor] = useState("");
@@ -18,15 +18,16 @@ const Create: NextPage = () => {
   const { data: session } = useSession();
   const imagesRef = useRef<null | HTMLDivElement>(null);
 
+  console.log(generatedImageURL);
   useEffect(() => {
     imagesRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [generatedImageURLS]);
+  }, [generatedImageURL]);
 
   const createIcon = async (e: React.MouseEvent) => {
     e.preventDefault();
 
     setIsGenerating(true);
-    setGeneratedImageURLS([]);
+    setGeneratedImageURL("");
 
     try {
       const response = await fetch("/api/image", {
@@ -41,10 +42,10 @@ const Create: NextPage = () => {
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const image_urls: string[] = await response.json();
+      const image_url: string = await response.json();
 
       setIsGenerating(false);
-      setGeneratedImageURLS(image_urls);
+      setGeneratedImageURL(image_url);
       setPrompt("");
       setColor("");
       setChosenArtStyle("");
@@ -119,8 +120,8 @@ const Create: NextPage = () => {
         {session ? (
           <button
             onClick={(e) => void createIcon(e)}
-            className="btn btn-secondary my-3 w-fit"
-            disabled={isGenerating || !prompt || !color}
+            className="btn btn-secondary my-3 w-fit disabled:pointer-events-none disabled:opacity-40"
+            disabled={isGenerating || !prompt || !color || !chosenArtStyle}
           >
             {isGenerating ? "Generating..." : "Submit"}
           </button>
@@ -134,34 +135,30 @@ const Create: NextPage = () => {
         )}
 
         {/* Generated Images */}
-        {generatedImageURLS.length > 0 && (
+        {generatedImageURL && (
           <div>
-            <h2 className="mb-5 text-2xl font-normal">Your Generated Icons</h2>
-            <div className="flex gap-8" ref={imagesRef}>
-              {generatedImageURLS.map((image_url) => (
-                <div key={image_url} className="relative w-fit">
-                  <Image
-                    src={image_url}
-                    alt="icon"
-                    height={80}
-                    width={80}
-                    className="h-40 w-40 rounded-lg"
-                  />
-                  <svg
-                    onClick={() => void downloadIcon(image_url, prompt)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="absolute right-1 top-1 h-6 w-6 cursor-pointer transition ease-out hover:opacity-80"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              ))}
+            <h2 className="mb-5 text-2xl font-normal">Your Generated Icon</h2>
+            <div className="relative w-fit" ref={imagesRef}>
+              <Image
+                src={generatedImageURL}
+                alt="icon"
+                height={80}
+                width={80}
+                className="h-40 w-40 rounded-lg"
+              />
+              <svg
+                onClick={() => void downloadIcon(generatedImageURL, prompt)}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="absolute right-1 top-1 h-6 w-6 cursor-pointer transition ease-out hover:opacity-80"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
+                  clipRule="evenodd"
+                />
+              </svg>
             </div>
           </div>
         )}
