@@ -1,6 +1,6 @@
 # IconGPT 
 
-I created a web app to create stunning icons with the OpenAI DALL-E-2 API. You can use these generated icons for business logos, personal projects, profile pictures and much more!
+I created a web app to create stunning icons with the OpenAI DALL-E-2 API. You can use these generated icons for business logos, personal projects, profile pictures and much more! Check it out <a href="https://icon-gpt.vercel.app/" target="__blank">here!</a>
 
 ## Built With
 - Nextjs
