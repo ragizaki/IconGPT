@@ -1,4 +1,5 @@
-# IconGPT 🤖
+![an astronaut](https://user-images.githubusercontent.com/43770239/226808918-921a37ee-6e02-410b-aaab-60330d7e228f.png)
+# IconGPT
 
 I created a web app to create stunning icons with the OpenAI DALL-E-2 API. You can use these generated icons for business logos, personal projects, profile pictures and much more!
 
