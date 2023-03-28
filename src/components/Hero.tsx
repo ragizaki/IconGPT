@@ -18,7 +18,7 @@ const Hero = () => {
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
-              className="block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition ease-out hover:text-white hover:opacity-80 focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
+              className="block w-full rounded border border-blue-700 bg-blue-700 px-12 py-3 text-sm font-medium text-white transition ease-in hover:text-white hover:opacity-80 focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
               href="/create"
             >
               Get Started

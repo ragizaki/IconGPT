@@ -18,7 +18,6 @@ const Create: NextPage = () => {
   const { data: session } = useSession();
   const imagesRef = useRef<null | HTMLDivElement>(null);
 
-  console.log(generatedImageURL);
   useEffect(() => {
     imagesRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [generatedImageURL]);
@@ -67,7 +66,7 @@ const Create: NextPage = () => {
       <div className="mt-5 flex flex-col justify-start space-y-10">
         <h2 className="text-5xl font-semibold">Let&apos;s create your icon.</h2>
         <div>
-          <div className="mb-5 flex items-center space-x-4">
+          <div className="mb-6 flex items-center space-x-4">
             <Image src="/number-1.svg" height={30} width={30} alt="number 1" />
             <h2 className="block text-2xl font-normal">
               Enter a descriptive prompt for your icon
@@ -81,7 +80,7 @@ const Create: NextPage = () => {
           />
         </div>
         <div>
-          <div className="mb-5 flex items-center space-x-4">
+          <div className="mb-6 flex items-center space-x-4">
             <Image src="/number-2.svg" height={30} width={30} alt="number 2" />
             <h2 className="block text-2xl font-normal">
               Choose the main colour for your icon
@@ -99,13 +98,13 @@ const Create: NextPage = () => {
           </div>
         </div>
         <div>
-          <div className="mb-5 flex items-center space-x-4">
+          <div className="mb-6 flex items-center space-x-4">
             <Image src="/number-3.svg" height={30} width={30} alt="number 3" />
             <h2 className="block text-2xl font-normal">
               Choose an art style for your icon
             </h2>
           </div>
-          <div className="flex space-x-8">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
             {artStyleOptions.map(({ artStyle, imageSource }) => (
               <StylePicker
                 key={artStyle}
@@ -137,7 +136,7 @@ const Create: NextPage = () => {
         {/* Generated Images */}
         {generatedImageURL && (
           <div>
-            <h2 className="mb-5 text-2xl font-normal">Your Generated Icon</h2>
+            <h2 className="mb-6 text-2xl font-normal">Your Generated Icon</h2>
             <div className="relative w-fit" ref={imagesRef}>
               <Image
                 src={generatedImageURL}
