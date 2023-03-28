@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-5 flex h-16 w-full items-center justify-between space-y-3 border-t border-gray-500 px-3 pt-4 text-center sm:mb-0 sm:h-20 sm:flex-row sm:pt-2">
-      <div className="text-slate-300">
+    <footer className="mt-5 flex h-16 w-full flex-col items-center justify-between space-y-3 border-t border-gray-500 px-3 pt-4 text-center sm:mb-0 sm:h-20 sm:flex-row sm:pt-2">
+      <div className="text-gray-500">
         Powered by{" "}
         <a
           href="https://openai.com/product/dall-e-2"
@@ -13,6 +13,7 @@ export default function Footer() {
         >
           DALL-E-2,{" "}
         </a>
+        and{" "}
         <a
           href="https://vercel.com/"
           target="_blank"
