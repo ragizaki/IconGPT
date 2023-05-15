@@ -2,6 +2,9 @@
 
 I created a web app to create stunning icons with the OpenAI DALL-E-2 API. You can use these generated icons for business logos, personal projects, profile pictures and much more! Check it out <a href="https://icongpt.vercel.app/" target="__blank">here!</a>
 
+## Note
+This app no longer works, as the free trial for the OpenAI API has expired. Feel free to check the demo below to see how it worked previously!
+
 ## Built With
 - Nextjs
 - Prisma
